@@ -101,38 +101,6 @@ public final class  Employee {
             //Worst time complexity: O(NLogN)
             Employee.findPath(listOfEmployees,connection[0],connection[1]);
 
-            //Finding the connection between two employee (using search algorithm)
-            // However, this method doesn't find the shortest connection
-            // Total Time Complexity: O(NLogN) - including the formConnection()
-            //Search the employees object
-            //Worst time complexity: O(N)
-            //            int index = 0;
-            //            Employee[] staff = new Employee[2];
-            //            for (Employee e: listOfEmployees) {
-            //                if (connection[0] != null && connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", "")) ) {
-            //                    connection[0] = null;
-            //                    staff[0] = e;
-            //                    index++;
-            //                } else if (connection[1] != null && connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))) {
-            //                    connection[1] = null;
-            //                    staff[1] = e;
-            //                    index++;
-            //                }
-            //
-            //                if (index == 2)  {
-            //                    break;
-            //                }
-            //            }
-            //            if (staff[0] != null && staff[1] != null) {
-            //                //get the connection - however, it doesn't find the shortest path
-            //                //Worst time complexity: O(N)
-            //                ArrayList<Employee> path = Employee.getPath(staff[0], staff[1]);
-            //                //printing the connection.
-            //                //Worst time complexity: O(N)
-            //                Employee.printPath(path);
-            //            } else {
-            //                System.out.println("Unable to find Employee");
-            //            }
         } catch (FileNotFoundException e1) {
             System.err.print("Invalid File Name.");
         } catch (NumberFormatException e1) {
