@@ -30,16 +30,12 @@ Assumptions
 - Managers are not allowed to have subordinates from two different manager ID
 - Managers with higher ID need to have subordinates before assigning subordinates for the managers with lower ID. 
 - Given a list of manager ID = [0,1,1,1,2,2,3,3,4,4,5,5]. Below are the list of subordinates for each employees.
-|-----------| -------------------------------|
-|Manager ID | list of subordinate manager ID |
-|-----------| -------------------------------|
-|  		    | 1,1,1							 |
-|1	        | 2,2							 |
-|1	        | 3,3							 |
-|1		    | 4,4							 |
-|2		    | 5,5							 |
-|-----------|--------------------------------|
-
+	<Manager Id> : <list of subordinates' Manager ID>
+		0    : 1,1,1
+		1    : 2,2
+		1    : 3,3
+		1    : 4,4
+		5    : 5,5
 
 Getting Started 
 ----------------
