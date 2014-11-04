@@ -17,8 +17,8 @@ import java.util.Queue;
  * chain between two employees
  *
  * @author Agastya Silvina
- * @version 1.2
- * @since  04/10/2014
+ * @version 1.0
+ * @since  03/10/2014
  * */
 public final class  Employee {
     private static final int EMPLOYEE_NAME = 2;
@@ -30,17 +30,12 @@ public final class  Employee {
     private String Name;
     private Employee Manager;
     private ArrayList<Employee> Subordinates;
-    
-    //Another attributes for the second implementation:
-    private int distanceValue;
-    private Employee leastDistance;
-    
     /**
      * ArrayList contains all information of employees within organization.
      * */
     private static ArrayList<Employee>
     listOfEmployees = new ArrayList<Employee>();
-    
+
     /**
      * Employee Constructor.
      * @param m integer of manager ID
@@ -53,23 +48,19 @@ public final class  Employee {
         Name = n;
         Manager = null;
         Subordinates = new ArrayList<Employee>();
-        
-        distanceValue = -1;
     }
-
+    
     /**
      * Main method of the Employee class.
      * @param args input value from user
      * */
     public static void main(final String[] args)  {
-        //get the list of employees from .txt file.
-        //Worst time complexity: O(N)
         String fileName = args[0];
         String [] connection = new String[2];
         for (int i = 1; i < args.length; i++) {
             connection[i - 1] = args[i].replaceAll("\\s", "").toLowerCase();
         }
-        
+
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(fileName));
@@ -96,42 +87,35 @@ public final class  Employee {
             }
             reader.close();
             Employee.formConnection(listOfEmployees);
-            //Finding the connection between two employees
-            //Worst time complexity: O(NLogN)
-            Employee.findPath(listOfEmployees,connection[0],connection[1]);
+            //Search the Employee
+            int index = 0;
+            Employee[] staff = new Employee[2];
+            boolean[] getValue = new boolean[2];
+            for (Employee e: listOfEmployees) {
+                if (connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))
+                        && !getValue[0]) {
+                    staff[0] = e;
+                    getValue[0] = true;
+                    index++;
+                    continue;
+                }
+                if (connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))
+                        && !getValue[1]) {
+                    staff[1] = e;
+                    getValue[1] = true;
+                    index++;
+                }
 
-            //Finding the connection between two employee (using search algorithm)
-            // However, this method doesn't find the shortest connection
-            // Total Time Complexity: O(NLogN) - including the formConnection()
-            //Search the employees object
-            //Worst time complexity: O(N)
-            //            int index = 0;
-            //            Employee[] staff = new Employee[2];
-            //            for (Employee e: listOfEmployees) {
-            //                if (connection[0] != null && connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", "")) ) {
-            //                    connection[0] = null;
-            //                    staff[0] = e;
-            //                    index++;
-            //                } else if (connection[1] != null && connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))) {
-            //                    connection[1] = null;
-            //                    staff[1] = e;
-            //                    index++;
-            //                }
-            //
-            //                if (index == 2)  {
-            //                    break;
-            //                }
-            //            }
-            //            if (staff[0] != null && staff[1] != null) {
-            //                //get the connection - however, it doesn't find the shortest path
-            //                //Worst time complexity: O(N)
-            //                ArrayList<Employee> path = Employee.getPath(staff[0], staff[1]);
-            //                //printing the connection.
-            //                //Worst time complexity: O(N)
-            //                Employee.printPath(path);
-            //            } else {
-            //                System.out.println("Unable to find Employee");
-            //            }
+                if (index == 2)  {
+                    break;
+                }
+            }
+            if (staff[0] != null && staff[1] != null) {
+                ArrayList<Employee> path = Employee.getPath(staff[0], staff[1]);
+                Employee.printPath(path);
+            } else {
+                System.out.println("Unable to find Employee");
+            }
         } catch (FileNotFoundException e1) {
             System.out.println("Invalid File Name.");
         } catch (NumberFormatException e1) {
@@ -140,13 +124,12 @@ public final class  Employee {
             System.out.println("Unable to load file.");
         }
     }
-
+    
     /**
      *Print the path connection between Employee.
      *@param path ArrayList connection between two employees
      * */
     public static void printPath(final ArrayList<Employee> path) {
-        //Worst time complexity: O(N)
         if (path == null) {
             System.out.println("Unable to Find Employee connection");
         }
@@ -166,15 +149,14 @@ public final class  Employee {
             }
         }
     }
-
+    
     /**
      * Forming connection within Employees.
      * Set the value of the manager or subordinates.
      * @param staffs ArrayList of Staff within company
      * */
     public static void formConnection(ArrayList<Employee> staffs) {
-        //Worst Time Complexity: O(NLogN)
-        sort(staffs);
+        sort(staffs); //Time Complexity: O(NLogN)
         Employee manager = staffs.get(0);
         int sId = staffs.get(1).ManagerID;
         int mIndex = 0;
@@ -221,7 +203,6 @@ public final class  Employee {
      * */
     public static  ArrayList<Employee> getPath(final Employee start,
             final Employee finish) {
-        //Path finding based on Dijkstra Algorithm
         HashMap<Employee, ArrayList<Employee>> paths =
                 new HashMap<Employee, ArrayList<Employee>>();
         Queue<Employee> frontier = new LinkedList<Employee>();
@@ -261,112 +242,6 @@ public final class  Employee {
         }
         return null;
     }
-
-    
-    /**
-     * Find the shortest part between two employees and print it out.
-     * @param s1 String Name employee 1
-     * @param s2 String Name employee 2
-     * */
-    public static void findPath(ArrayList<Employee> A, String s1, String s2) {
-        //Total time complexity: O(NLogN)
-        //assume that string input is not null.
-        //to cater the worst case of having employees with the same name.
-        //array list of employee might not sorted, however the connection has formed
-        //find the list of employee with name: s1 & s2
-        //Worst time complexity: O(N)
-        ArrayList<Employee> list1 = new ArrayList<Employee>();
-        ArrayList<Employee> list2 = new ArrayList<Employee>();
-        for(int i = 0; i < A.size(); i++) {
-            if (s1.equalsIgnoreCase(A.get(i).Name.replaceAll("\\s", "")) ) {
-                list1.add(A.get(i));
-            }
-            if (s2.equalsIgnoreCase(A.get(i).Name.replaceAll("\\s", ""))) {
-                list2.add(A.get(i));
-            }
-        }
-        
-        if(list1.size() == 1) {
-            System.out.println("Only one employee found: "+ list1.get(0).Name + " (" + list1.get(0).EmployeeID + ")");
-            return;
-        } else if (list1.size() == 0) {
-            System.out.println("Unable to find employee");
-            return;
-        }
-
-        //Finding two employees with the shortest connection
-        //Worst time complexity: O(NLogN)
-        int MinDistance = Integer.MAX_VALUE;
-        Employee staff1 = null;
-        Employee staff2 = null;
-        for( Employee e: list1) {
-            //updating the value of A
-            e.leastDistance = e;
-            Employee temp = e;
-            int value = 0;
-            while(temp != null) {
-                if(temp.distanceValue == -1) {
-                    temp.distanceValue = value;
-                    temp.leastDistance = e;
-                } else if (temp.distanceValue > value) {
-                    temp.distanceValue = value;
-                    temp.leastDistance = e;
-                }
-                //else we don't update distanceValue
-                value++;
-                temp = temp.Manager;
-            }
-        }
-        //finding the least distance
-        for ( Employee e: list2) {
-            Employee temp = e;
-            int value = 0;
-            while (temp != null) {
-                if( MinDistance > temp.distanceValue + value && (temp.distanceValue != -1) && temp.leastDistance != e) {
-                    MinDistance = (temp.distanceValue + value);
-                    staff2 = e;
-                    staff1 = temp.leastDistance;
-                }
-                value++;
-                temp = temp.Manager;
-            }
-        }
-        //we get the value of staff one and two
-        //find the common manager of each staff
-        //Worst time complexity: O(logN)
-        ArrayList<Employee> m1 = new ArrayList<Employee>();
-        ArrayList<Employee> m2 = new ArrayList<Employee>();
-        m1.add(staff1);
-        m2.add(staff2);
-        while (m1.get(m1.size()-1) != m2.get(m2.size()-1)) {
-            if (m1.get(m1.size()-1).ManagerID > m2.get(m2.size()-1).ManagerID) {
-                m1.add(m1.get(m1.size()-1).Manager);
-            } else if (m1.get(m1.size()-1).ManagerID < m2.get(m2.size()-1).ManagerID) {
-                m2.add(m2.get(m2.size()-1).Manager);
-            } else {
-                m1.add(m1.get(m1.size()-1).Manager);
-                m2.add(m2.get(m2.size()-1).Manager);
-            }
-        }
-
-        //printing the connection
-        //Worst time complexity: O(logN)
-        if (staff1 != null && staff2 != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(m1.get(0).Name + " (" + m1.get(0).EmployeeID + ")");
-            for (int i = 1; i < m1.size(); i++) {
-                sb.append(" -> "+m1.get(i).Name + " (" + m1.get(i).EmployeeID + ")");
-            }
-            if(m2.size()-2 >= 0) {
-                for (int i = m2.size()-2; i >=0; i--) {
-                    sb.append(" <- "+m2.get(i).Name + " (" + m2.get(i).EmployeeID + ")");
-                }
-            }
-            System.out.println(sb.toString());
-        }
-        
-    }//end of method
-    
     
     /**
      * Sorting ArrayList of Employee.
