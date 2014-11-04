@@ -38,7 +38,7 @@ public final class  Employee {
     /**
      * ArrayList contains all information of employees within organization.
      * */
-    private static ArrayList<Employee>
+    static ArrayList<Employee>
     listOfEmployees = new ArrayList<Employee>();
     
     /**
@@ -64,14 +64,15 @@ public final class  Employee {
     public static void main(final String[] args)  {
         //get the list of employees from .txt file.
         //Worst time complexity: O(N)
-        String fileName = args[0];
-        String [] connection = new String[2];
-        for (int i = 1; i < args.length; i++) {
-            connection[i - 1] = args[i].replaceAll("\\s", "").toLowerCase();
-        }
-        
-        BufferedReader reader;
         try {
+            String fileName = args[0];
+            String [] connection = new String[2];
+            for (int i = 1; i < args.length; i++) {
+                connection[i - 1] = args[i].replaceAll("\\s", "").toLowerCase();
+            }
+            
+            BufferedReader reader;
+
             reader = new BufferedReader(new FileReader(fileName));
             String line = null;
             int counter = 0;
@@ -96,7 +97,6 @@ public final class  Employee {
             }
             reader.close();
             Employee.formConnection(listOfEmployees);
-<<<<<<< HEAD
             //Finding the connection between two employees
             //Worst time complexity: O(NLogN)
             Employee.findPath(listOfEmployees,connection[0],connection[1]);
@@ -133,40 +133,19 @@ public final class  Employee {
             //            } else {
             //                System.out.println("Unable to find Employee");
             //            }
-=======
-            //Search the Employee
-            int index = 0;
-            Employee[] staff = new Employee[2];
-            for (Employee e: listOfEmployees) {
-                if (connection[0] != null && connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", "")) ) {
-                    connection[0] = null;
-                    staff[0] = e;
-                    index++;
-                } else if (connection[1] != null && connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))) {
-                    connection[1] = null;
-                    staff[1] = e;
-                    index++;
-                }
-                
-                if (index == 2)  {
-                    break;
-                }
-            }
-            
-            if (staff[0] != null && staff[1] != null) {
-                ArrayList<Employee> path = Employee.getPath(staff[0], staff[1]);
-                Employee.printPath(path);
-            } else {
-                System.out.println("Unable to find Employee");
-            }
->>>>>>> FETCH_HEAD
         } catch (FileNotFoundException e1) {
-            System.out.println("Invalid File Name.");
+            System.err.print("Invalid File Name.");
         } catch (NumberFormatException e1) {
-            System.out.println("Invalid ID");
+            System.err.print("Invalid ID");
         } catch (IOException e1) {
-            System.out.println("Unable to load file.");
+            System.err.print("Unable to load file.");
+        } catch(ArrayIndexOutOfBoundsException e1) {
+            System.err.print("Invalid Argument: too many arguments");
+        } catch (NullPointerException e1) {
+            System.err.print("Invalid Argument");
         }
+        
+
     }
 
     /**
@@ -314,10 +293,10 @@ public final class  Employee {
             }
         }
         
-        if(list1.size() == 1) {
+        if(list1.size() == 1 && list2.size() == 1 && list1.get(0) == list2.get(0)) {
             System.out.println("Only one employee found: "+ list1.get(0).Name + " (" + list1.get(0).EmployeeID + ")");
             return;
-        } else if (list1.size() == 0) {
+        } else if (list1.size() == 0 || list2.size() == 0) {
             System.out.println("Unable to find employee");
             return;
         }
@@ -391,6 +370,8 @@ public final class  Employee {
                 }
             }
             System.out.println(sb.toString());
+        } else {
+            System.out.println("Unable to find employee");
         }
         
     }//end of method

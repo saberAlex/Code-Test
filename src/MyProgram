@@ -1,0 +1,21 @@
+#!/bin/bash 
+
+if [ $# != '3' ]; then
+echo "Invalid Parameter | Usage : MyProgram <filename> <EmployeeName>  <EmployeeName> "
+exit 1
+fi
+
+echo "#!/bin/bash" > run
+echo -e "\n" >> run
+echo -n "java Employee" >> run
+echo -n  " " >> run
+
+
+for var in "$@"
+do
+echo -n "$var" >> run
+echo -n " " >> run
+done
+chmod 755 ./run
+./run
+rm ./run
