@@ -30,17 +30,17 @@ public final class  Employee {
     private String Name;
     private Employee Manager;
     private ArrayList<Employee> Subordinates;
-
+    
     //Another attributes for the second implementation:
     private int distanceValue;
     private Employee leastDistance;
-
+    
     /**
      * ArrayList contains all information of employees within organization.
      * */
     static ArrayList<Employee>
     listOfEmployees = new ArrayList<Employee>();
-
+    
     /**
      * Employee Constructor.
      * @param m integer of manager ID
@@ -53,10 +53,10 @@ public final class  Employee {
         Name = n;
         Manager = null;
         Subordinates = new ArrayList<Employee>();
-
+        
         distanceValue = -1;
     }
-    
+
     /**
      * Main method of the Employee class.
      * @param args input value from user
@@ -70,9 +70,9 @@ public final class  Employee {
             for (int i = 1; i < args.length; i++) {
                 connection[i - 1] = args[i].replaceAll("\\s", "").toLowerCase();
             }
-
-            BufferedReader reader;
             
+            BufferedReader reader;
+
             reader = new BufferedReader(new FileReader(fileName));
             String line = null;
             int counter = 0;
@@ -101,38 +101,6 @@ public final class  Employee {
             //Worst time complexity: O(NLogN)
             Employee.findPath(listOfEmployees,connection[0],connection[1]);
             
-            //Finding the connection between two employee (using search algorithm)
-            // However, this method doesn't find the shortest connection
-            // Total Time Complexity: O(NLogN) - including the formConnection()
-            //Search the employees object
-            //Worst time complexity: O(N)
-            //            int index = 0;
-            //            Employee[] staff = new Employee[2];
-            //            for (Employee e: listOfEmployees) {
-            //                if (connection[0] != null && connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", "")) ) {
-            //                    connection[0] = null;
-            //                    staff[0] = e;
-            //                    index++;
-            //                } else if (connection[1] != null && connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))) {
-            //                    connection[1] = null;
-            //                    staff[1] = e;
-            //                    index++;
-            //                }
-            //
-            //                if (index == 2)  {
-            //                    break;
-            //                }
-            //            }
-            //            if (staff[0] != null && staff[1] != null) {
-            //                //get the connection - however, it doesn't find the shortest path
-            //                //Worst time complexity: O(N)
-            //                ArrayList<Employee> path = Employee.getPath(staff[0], staff[1]);
-            //                //printing the connection.
-            //                //Worst time complexity: O(N)
-            //                Employee.printPath(path);
-            //            } else {
-            //                System.out.println("Unable to find Employee");
-            //            }
         } catch (FileNotFoundException e1) {
             System.err.print("Invalid File Name.");
         } catch (NumberFormatException e1) {
@@ -144,10 +112,10 @@ public final class  Employee {
         } catch (NullPointerException e1) {
             System.err.print("Invalid Argument");
         }
-
         
+
     }
-    
+
     /**
      *Print the path connection between Employee.
      *@param path ArrayList connection between two employees
@@ -173,7 +141,7 @@ public final class  Employee {
             }
         }
     }
-    
+
     /**
      * Forming connection within Employees.
      * Set the value of the manager or subordinates.
@@ -268,8 +236,8 @@ public final class  Employee {
         }
         return null;
     }
-    
 
+    
     /**
      * Find the shortest part between two employees and print it out.
      * @param staffs list of Employees in the organization
@@ -293,7 +261,7 @@ public final class  Employee {
                 list2.add(staffs.get(i));
             }
         }
-
+        
         if(list1.size() == 1 && list2.size() == 1 && list1.get(0) == list2.get(0)) {
             System.out.println("Only one employee found: "+ list1.get(0).Name + " (" + list1.get(0).EmployeeID + ")");
             return;
@@ -301,7 +269,7 @@ public final class  Employee {
             System.out.println("Unable to find employee");
             return;
         }
-        
+
         //Finding two employees with the shortest connection
         //Worst time complexity: O(NLogN)
         int MinDistance = Integer.MAX_VALUE;
@@ -356,7 +324,7 @@ public final class  Employee {
                 m2.add(m2.get(m2.size()-1).Manager);
             }
         }
-        
+
         //printing the connection
         //Worst time complexity: O(logN)
         if (staff1 != null && staff2 != null) {
@@ -374,10 +342,10 @@ public final class  Employee {
         } else {
             System.out.println("Unable to find employee");
         }
-
+        
     }//end of method
-
-
+    
+    
     /**
      * Sorting ArrayList of Employee.
      * Implemented the comparator to sort the list.
