@@ -90,26 +90,22 @@ public final class  Employee {
             //Search the Employee
             int index = 0;
             Employee[] staff = new Employee[2];
-            boolean[] getValue = new boolean[2];
             for (Employee e: listOfEmployees) {
-                if (connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))
-                        && !getValue[0]) {
+                if (connection[0] != null && connection[0].equalsIgnoreCase(e.Name.replaceAll("\\s", "")) ) {
+                    connection[0] = null;
                     staff[0] = e;
-                    getValue[0] = true;
                     index++;
-                    continue;
-                }
-                if (connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))
-                        && !getValue[1]) {
+                } else if (connection[1] != null && connection[1].equalsIgnoreCase(e.Name.replaceAll("\\s", ""))) {
+                    connection[1] = null;
                     staff[1] = e;
-                    getValue[1] = true;
                     index++;
                 }
-
+                
                 if (index == 2)  {
                     break;
                 }
             }
+            
             if (staff[0] != null && staff[1] != null) {
                 ArrayList<Employee> path = Employee.getPath(staff[0], staff[1]);
                 Employee.printPath(path);
