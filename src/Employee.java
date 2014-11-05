@@ -106,7 +106,12 @@ public final class  Employee {
             Employee.formConnection(listOfEmployees);
             //Finding the connection between two employees
             //Worst time complexity: O(NLogN)
+<<<<<<< HEAD
             Employee.findPath(listOfEmployees, connection[0], connection[1]);
+=======
+            Employee.findPath(listOfEmployees,connection[0],connection[1]);
+
+>>>>>>> FETCH_HEAD
         } catch (FileNotFoundException e1) {
             System.err.print("Invalid File Name.");
         } catch (NumberFormatException e1) {
