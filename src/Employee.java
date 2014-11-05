@@ -210,7 +210,7 @@ public final class Employee {
         Employee staff1 = null;
         Employee staff2 = null;
         for (Employee e: list1) {
-            //updating the value of A
+            //updating the value of emp
             e.leastDistance = e;
             Employee temp = e;
             int value = 0;
