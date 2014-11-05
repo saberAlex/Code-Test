@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 /**
  * BT Code Test.
  * This Employee class is the implementation of BT's programming task:
@@ -15,9 +14,9 @@ import java.util.Comparator;
  *
  * @author Agastya Silvina
  * @version 1.2
- * @since  04/10/2014
+ * @since 04/10/2014
  * */
-public final class  Employee {
+public final class Employee {
     /**
      * Employee name column's index.
      * */
@@ -55,7 +54,6 @@ public final class  Employee {
      * List of subordinates.
      * */
     private ArrayList<Employee> subordinates;
-    
     //Another attributes for version 1.2 and above implementation:
     /**
      * Keep the value of minimal distance from of particular employee.
@@ -65,13 +63,11 @@ public final class  Employee {
      * Pointer to certain employee.
      * */
     private Employee leastDistance;
-    
     /**
      * ArrayList contains all information of employees within organization.
      * */
     static ArrayList<Employee>
     listOfEmployees = new ArrayList<Employee>();
-
     /**
      * Employee Constructor.
      * @param m integer of manager ID
@@ -84,15 +80,13 @@ public final class  Employee {
         name = n;
         manager = null;
         subordinates = new ArrayList<Employee>();
-        
         distanceValue = -1;
     }
-
     /**
      * Main method of the Employee class.
      * @param args input value from user
      * */
-    public static void main(final String[] args)  {
+    public static void main(final String[] args) {
         //get the list of employees from .txt file.
         //Worst time complexity: O(N)
         try {
@@ -101,17 +95,12 @@ public final class  Employee {
             for (int i = 1; i < args.length; i++) {
                 connection[i - 1] = args[i].replaceAll("\\s", "").toLowerCase();
             }
-            
             readFromFile(fileName);
             Employee.formConnection(listOfEmployees);
             //Finding the connection between two employees
             //Worst time complexity: O(NLogN)
-<<<<<<< HEAD
             Employee.findPath(listOfEmployees, connection[0], connection[1]);
-=======
-            Employee.findPath(listOfEmployees,connection[0],connection[1]);
-
->>>>>>> FETCH_HEAD
+            
         } catch (FileNotFoundException e1) {
             System.err.print("Invalid File Name.");
         } catch (NumberFormatException e1) {
@@ -123,18 +112,15 @@ public final class  Employee {
         } catch (NullPointerException e1) {
             System.err.print("Invalid Argument");
         }
-        
     }
-    
     /**
      * Read the input .txt and put Employees' detail into ArrayList.
      * @param fileName String of fileName (required: specific path)
      * */
-    public static void readFromFile(String  fileName)
-            throws  IOException {
+    public static void readFromFile(String fileName)
+            throws IOException {
         //Worst time complexity: O(NLogN)
         BufferedReader reader;
-        
         reader = new BufferedReader(new FileReader(fileName));
         String line = null;
         int counter = 0;
@@ -164,7 +150,7 @@ public final class  Employee {
      * Set the value of the manager or subordinates.
      * @param staffs ArrayList of Staff within company
      * */
-    public static void formConnection(final ArrayList<Employee>  staffs) {
+    public static void formConnection(final ArrayList<Employee> staffs) {
         //Worst Time Complexity: O(NLogN)
         sort(staffs);
         Employee manager = staffs.get(0);
@@ -172,7 +158,7 @@ public final class  Employee {
         int mIndex = 0;
         for (int i = 1; i < staffs.size(); i++) {
             if (staffs.get(i).managerID != sId) {
-                sId =  staffs.get(i).managerID;
+                sId = staffs.get(i).managerID;
                 mIndex++;
                 manager = staffs.get(mIndex);
                 staffs.get(i).manager = manager;
@@ -196,7 +182,6 @@ public final class  Employee {
         //this method handles the case of having employees with the same name.
         //array list of employee might not sorted but the connection
         //between employees has formed
-        
         //find the list of employee with name: s1 & s2
         //Worst time complexity: O(N)
         ArrayList<Employee> list1 = new ArrayList<Employee>();
@@ -277,7 +262,6 @@ public final class  Employee {
                 m2.add(m2.get(m2.size() - 1).manager);
             }
         }
-        
         //printing the connection
         //Worst time complexity: O(logN)
         if (staff1 != null && staff2 != null) {
@@ -297,9 +281,7 @@ public final class  Employee {
         } else {
             System.out.println("Unable to find employee");
         }
-        
     } //end of method
-    
     /**
      * Sorting ArrayList of Employee.
      * Implemented the comparator to sort the list.
@@ -320,7 +302,7 @@ public final class  Employee {
                         return -1;
                     }
                 }
-                if (o1.managerID > o2.managerID)  {
+                if (o1.managerID > o2.managerID) {
                     return 1;
                 } else {
                     return -1;
@@ -329,5 +311,3 @@ public final class  Employee {
         });
     }
 }
-
-
